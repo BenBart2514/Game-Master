@@ -1,13 +1,9 @@
 class Character
   attr_reader :name, :race, :hp, :max_hp, :mana, :max_mana, :stamina, :max_stamina, :ap, :max_ap, :attack, :defence
 
-  @@characters = []
-  @@character_count = @@characters.length
-
   def initialize(name, race = 'Human')
-    @name = name.capitalize
-    @race = race.capitalize
-    @@characters << self
+    @name = name
+    @race = race
   end
 
   def change_name
