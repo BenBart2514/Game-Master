@@ -13,6 +13,7 @@ class CharacterManager
       Character.new('Ross', prompt),
       Character.new('Damien', prompt)
     ]
+    @removed_characters
   end
 
   def cm_menu
@@ -23,12 +24,14 @@ class CharacterManager
       menu.choice 'New Character', 1
       menu.choice 'Edit Character', 2
       menu.choice 'List Characters', 3
-      menu.choice 'Help', 4
-      menu.choice 'Go Back', 5
-      menu.choice 'Exit', 6
+      menu.choice 'Import Character(s)', 4
+      menu.choice 'Export Character(s)', 5
+      menu.choice 'Help', 6
+      menu.choice 'Go Back', 7
+      menu.choice 'Exit', 8
     end
 
-    exit if @y == 6
+    exit if @y == 8
     case @y
     when 1
       sleep(0.2)
@@ -60,13 +63,23 @@ class CharacterManager
       @prompt.keypress('Press any key to return to previous menu...')
       cm_menu
     when 4
-      # display help document
-      puts 'does nothing yet'
-      @prompt.keypress('Press any key to return to previous menu...')
-      cm_menu
+      # Import from file
+      puts 'Import function incomplete'
+      sleep(1)
+      prompt.keypress('Press any key to return to previous menu...')
     when 5
-      # go back to main menu
-      # main_menu
+      # Export to file
+      puts 'Export function incomplete'
+      sleep(1)
+      prompt.keypress('Press any key to return to previous menu...')
+    when 6
+      # display help document
+      puts 'Help is on the way!'
+      sleep(0.5)
+      puts '(Coming soon...)'
+      sleep(1)
+      prompt.keypress('Press any key to return to previous menu...')
+      cm_menu
     end
   end
 
