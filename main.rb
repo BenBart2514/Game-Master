@@ -3,17 +3,29 @@ require_relative 'character_manager'
 
 prompt = TTY::Prompt.new
 
-main_select = prompt.select('Main Menu', cycle: true, show_help: :always) do |menu|
-  menu.enum '.'
+def main_menu
+  sleep(0.2)
+  system 'clear'
+  main_select = $prompt.select('Main Menu', cycle: true, show_help: :always) do |menu|
+    menu.enum '.'
 
-  menu.choice 'Charcter Manager', 1
-  menu.choice 'Damage/Healing Calculator', 2
-  menu.choice 'Dice Roller, Coin Flipper', 3
-  menu.choice 'Help', 4
-  menu.choice 'Exit', 5
+    menu.choice 'Charcter Manager', 1
+    menu.choice 'Damage/Healing Calculator', 2
+    menu.choice 'Dice Roller, Coin Flipper', 3
+    menu.choice 'Help', 4
+    menu.choice 'Exit', 5
+  end
+  exit if main_select == 5
+  case main_select
+  when 1
+    character = CharacterManager.new($prompt)
+    character.cm_menu
+  end
 end
-exit if main_select == 5
-if main_select == 1
-  character = CharacterManager.new(prompt)
-  y = character.cm_menu
+
+puts 'Welcome to Game Master'
+sleep(0.5)
+$prompt.keypress('Press any key to start...')
+loop do
+  main_menu
 end
