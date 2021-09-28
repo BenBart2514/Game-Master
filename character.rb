@@ -2,12 +2,15 @@ require 'tty-prompt'
 require 'tty-table'
 
 class Character
-  attr_reader :name, :race, :gender, :lvl, :xp, :hp, :max_hp, :mana, :max_mana, :stamina, :max_stamina, :ap, :max_ap, :attack,
-              :defence
+  attr_reader :name, :race, :gender, :lvl, :xp, :hp, :max_hp, :mana, :max_mana, :stamina, :max_stamina, :ap, :max_ap,
+              :attack, :defence
 
   def initialize(name, prompt)
     @prompt = prompt
     @name = name
+    @status = []
+    # DEBUG
+    # @status = %w[Bleeding Stunned]
   end
 
   def change_name
@@ -226,20 +229,49 @@ class Character
 
   def set_status
     sleep(0.2)
-    @y = @prompt.ask('What status effects are active on this character? ')
-    @status = @y
+    @y = @prompt.select('Would you like add or remove status effects? ', cycle: true, show_help: :always) do |menu|
+      menu.enum '.'
+      menu.choice 'Add', 1
+      menu.choice 'Remove', 2
+      menu.choice 'Go Back', 3
+    end
+    case @y
+    when 1
+      add_status
+    when 2
+      remove_status
+    end
+  end
+
+  def add_status
+    @y = @prompt.ask('What status effect is active on this character? ')
+    @status << @y
+  end
+
+  def remove_status
+    choice = @prompt.multi_select('What status effect(s) would you like to remove? ', @status, cycle: true,
+                                                                                               show_help: :always,
+                                                                                               filter: true)
+    choice.each do |x|
+      @status.delete(x)
+    end
   end
 
   def view_stats
     puts @name
-    puts "#{@gender} #{@race}"
-    if @hp == 0
-      puts 'Status: Dead'
-    else
-      puts "Status: Alive #{@status}"
+    puts "#{@gender} #{@race}" unless @gender.nil? && @race.nil?
+    unless hp.nil?
+      if @hp.zero?
+        puts 'Status: Dead'
+      elsif @status.empty?
+        puts 'Status: Alive'
+      else
+        puts "Status: Alive, #{@status}"
+      end
     end
     table = TTY::Table.new do |t|
-      t << ['Level:', "#{@lvl}, XP: #{@xp}"]
+      t << ['Level:', @lvl.to_s]
+      t << ['XP:', @xp.to_s]
       t << ['HP:', "#{@hp}/#{@max_hp}"]
       t << ['Mana: ', "#{@mana}/#{@max_mana}"]
       t << ['Stamina: ', "#{@stamina}/#{@max_stamina}"]

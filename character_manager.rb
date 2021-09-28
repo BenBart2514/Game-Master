@@ -6,11 +6,13 @@ class CharacterManager
 
   def initialize(prompt)
     @prompt = prompt
-    @characters = [
-      # Character.new('Bob', prompt),
-      # Character.new('Ross', prompt),
-      # Character.new('Damien', prompt)
-    ]
+    @characters = []
+    # DEBUG
+    # @characters = [
+    #   Character.new('Bob', prompt),
+    #   Character.new('Ross', prompt),
+    #   Character.new('Damien', prompt)
+    # ]
   end
 
   def cm_menu
