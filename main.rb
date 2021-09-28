@@ -4,7 +4,7 @@ require_relative 'character_manager'
 prompt = TTY::Prompt.new
 
 puts 'Welcome to Game Master'
-sleep(0.5)
+sleep(0.2)
 prompt.keypress('Press any key to start...')
 
 cm = CharacterManager.new(prompt)
