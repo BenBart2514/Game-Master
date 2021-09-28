@@ -21,7 +21,7 @@ class CharacterManager
     @y = if @characters.length.zero?
            1
          else
-           @prompt.select('Character Manager', cycle: true, show_help: :always) do |menu|
+           @prompt.select('Character Manager', cycle: true, show_help: :always, per_page: 8) do |menu|
              menu.enum '.'
              menu.choice 'New Character', 1
              menu.choice 'Edit Character', 2
@@ -37,7 +37,6 @@ class CharacterManager
     exit if @y == 8
     case @y
     when 1
-      sleep(0.2)
       prompt_name
       @characters << Character.new(@name, @prompt)
       @current_character = @characters.last
@@ -86,10 +85,11 @@ class CharacterManager
   end
 
   def prompt_name
+    sleep(0.2)
     @name = @prompt.ask("What is your character's name? ")
-    if @name.nil?
+    while @name.nil?
       puts 'Invalid name'
-      sleep(0.2)
+      @prompt.keypress('Press any key to try again...')
       cm_menu
     end
   end
