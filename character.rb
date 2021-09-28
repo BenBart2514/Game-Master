@@ -1,7 +1,6 @@
 require 'tty-prompt'
 require 'tty-table'
 
-
 class Character
   attr_reader :name, :race, :gender, :lvl, :hp, :max_hp, :mana, :max_mana, :stamina, :max_stamina, :ap, :max_ap, :attack,
               :defence
@@ -40,6 +39,12 @@ class Character
     sleep(0.2)
     x = gets.chomp
     lvl = x.to_i
+    while lvl.zero?
+      puts 'Invalid value, please enter a number: '
+      sleep(0.2)
+      x = gets.chomp
+      lvl = x.to_i
+    end
     @lvl = lvl
     puts "#{name}'s level is now #{@lvl}"
   end
@@ -49,6 +54,12 @@ class Character
     sleep(0.2)
     x = gets.chomp
     hp = x.to_i
+    while hp.zero?
+      puts 'Invalid value, please enter a number: '
+      sleep(0.2)
+      x = gets.chomp
+      hp = x.to_i
+    end
     @max_hp = hp
     @hp = hp
     puts "#{name}'s HP is now #{@hp}"
@@ -59,6 +70,12 @@ class Character
     sleep(0.2)
     x = gets.chomp
     mana = x.to_i
+    while mana.zero?
+      puts 'Invalid value, please enter a number: '
+      sleep(0.2)
+      x = gets.chomp
+      mana = x.to_i
+    end
     @max_mana = mana
     @mana = mana
     puts "#{name}'s Mana is now #{@mana}"
@@ -69,6 +86,12 @@ class Character
     sleep(0.2)
     x = gets.chomp
     stamina = x.to_i
+    while stamina.zero?
+      puts 'Invalid value, please enter a number: '
+      sleep(0.2)
+      x = gets.chomp
+      stamina = x.to_i
+    end
     @max_stamina = stamina
     @stamina = stamina
     puts "#{name}'s Stamina is now #{@stamina}"
@@ -79,6 +102,12 @@ class Character
     sleep(0.2)
     x = gets.chomp
     ap = x.to_i
+    while ap.zero?
+      puts 'Invalid value, please enter a number: '
+      sleep(0.2)
+      x = gets.chomp
+      ap = x.to_i
+    end
     @max_ap = ap
     @ap = ap
     puts "#{name}'s AP is now #{@ap}"
@@ -89,6 +118,12 @@ class Character
     sleep(0.2)
     x = gets.chomp
     attack = x.to_i
+    while attack.zero?
+      puts 'Invalid value, please enter a number: '
+      sleep(0.2)
+      x = gets.chomp
+      attack = x.to_i
+    end
     @attack = attack
     puts "#{name}'s Attack is now #{@attack}"
   end
@@ -98,6 +133,12 @@ class Character
     sleep(0.2)
     x = gets.chomp
     defence = x.to_i
+    while defence.zero?
+      puts 'Invalid value, please enter a number: '
+      sleep(0.2)
+      x = gets.chomp
+      defence = x.to_i
+    end
     @defence = defence
     puts "#{name}'s Defence is now #{@defence}"
   end
@@ -130,17 +171,23 @@ class Character
   end
 
   def view_stats
-    puts self.name
+    puts name
     puts "#{gender} #{race}"
     table = TTY::Table.new do |t|
-      t << ["Level:", "#{lvl}"]
-      t << ["HP:", "#{hp}/#{max_hp}"]
-      t << ["Mana: ", "#{mana}/#{max_mana}"]
-      t << ["Stamina: ", "#{stamina}/#{max_stamina}"]
-      t << ["Action Points: ", "#{ap}/#{max_ap}"]
-      t << ["Attack:", "#{attack}"]
-      t << ["Defence:", "#{defence}"]
+      t << ['Level:', lvl.to_s]
+      t << ['HP:', "#{hp}/#{max_hp}"]
+      t << ['Mana: ', "#{mana}/#{max_mana}"]
+      t << ['Stamina: ', "#{stamina}/#{max_stamina}"]
+      t << ['Action Points: ', "#{ap}/#{max_ap}"]
+      t << ['Attack:', attack.to_s]
+      t << ['Defence:', defence.to_s]
     end
     puts table.render(:unicode)
+    @y = @prompt.select('Select an action: ', cycle: true, show_help: :always) do |menu|
+      menu.enum '.'
+      menu.choice 'Edit Character', 1
+      menu.choice 'Go Back', 2
+    end
+    edit_options if @y == 1
   end
 end

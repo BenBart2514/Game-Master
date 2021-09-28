@@ -1,35 +1,36 @@
 require 'tty-prompt'
 require_relative 'character'
 
-prompt = TTY::Prompt.new
-
 class CharacterManager
   attr_accessor :characters
 
   def initialize(prompt)
     @prompt = prompt
     @characters = [
-      Character.new('Bob', prompt),
-      Character.new('Ross', prompt),
-      Character.new('Damien', prompt)
+      # Character.new('Bob', prompt),
+      # Character.new('Ross', prompt),
+      # Character.new('Damien', prompt)
     ]
-    @removed_characters
   end
 
   def cm_menu
     sleep(0.2)
     system 'clear'
-    @y = @prompt.select('Character Manager', cycle: true, show_help: :always) do |menu|
-      menu.enum '.'
-      menu.choice 'New Character', 1
-      menu.choice 'Edit Character', 2
-      menu.choice 'List Characters', 3
-      menu.choice 'Import Character(s)', 4
-      menu.choice 'Export Character(s)', 5
-      menu.choice 'Help', 6
-      menu.choice 'Go Back', 7
-      menu.choice 'Exit', 8
-    end
+    @y = if @characters.length.zero?
+           1
+         else
+           @prompt.select('Character Manager', cycle: true, show_help: :always) do |menu|
+             menu.enum '.'
+             menu.choice 'New Character', 1
+             menu.choice 'Edit Character', 2
+             menu.choice 'List Characters', 3
+             menu.choice 'Import Character(s)', 4
+             menu.choice 'Export Character(s)', 5
+             menu.choice 'Help', 6
+             menu.choice 'Go Back', 7
+             menu.choice 'Exit', 8
+           end
+         end
 
     exit if @y == 8
     case @y
@@ -60,7 +61,6 @@ class CharacterManager
       character = @characters[choice]
       sleep(0.2)
       character.view_stats
-      @prompt.keypress('Press any key to return to previous menu...')
       cm_menu
     when 4
       # Import from file
@@ -87,7 +87,7 @@ class CharacterManager
     @name = @prompt.ask("What is your character's name? ")
     if @name.nil?
       puts 'Invalid name'
-      sleep(1)
+      sleep(0.2)
       cm_menu
     end
   end

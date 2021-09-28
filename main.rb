@@ -7,9 +7,10 @@ puts 'Welcome to Game Master'
 sleep(0.5)
 prompt.keypress('Press any key to start...')
 
-x = 0
+cm = CharacterManager.new(prompt)
+main_menu = true
 
-while x.zero?
+while main_menu == true
   sleep(0.2)
   system 'clear'
   main_select = prompt.select('Main Menu', cycle: true, show_help: :always) do |menu|
@@ -24,8 +25,7 @@ while x.zero?
   exit if main_select == 5
   case main_select
   when 1
-    character = CharacterManager.new(prompt)
-    character.cm_menu
+    cm.cm_menu
   when 2
     puts 'DHC under construction'
     sleep(1)
