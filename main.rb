@@ -12,7 +12,7 @@ main_menu = true
 dhc_menu = false
 drcf_menu = false
 
-while main_menu == true && dhc_menu == false
+while main_menu == true
   sleep(0.2)
   system 'clear'
   main_select = prompt.select('Main Menu', cycle: true, show_help: :always) do |menu|
@@ -76,16 +76,27 @@ while main_menu == true && dhc_menu == false
       resist = nil
       weaker = nil
 
-      puts 'What is the starting value?'
-      health = gets.chomp.to_i
-      puts 'What is the damage ammount?'
-      damage = gets.chomp.to_i
-      puts 'How much damage will be reduced, if any? (Whole Values ONLY)'
-      armour = gets.chomp.to_i
-      puts 'Does this character have any resistances? (Percentages ONLY)'
-      resist = gets.chomp.to_i
-      puts 'Does this character have any weaknesses? (Percentages ONLY)'
-      weaker = gets.chomp.to_i
+      puts 'This calculator only accepts whole numbers.'
+      puts 'Decimals will not be rounded and any entry containing letters or special characters will default to 0.'
+      prompt.keypress('Press any key to continue...')
+
+      begin
+        puts 'What is the starting value?'
+        health = gets.chomp.to_i
+        puts 'What is the damage ammount?'
+        damage = gets.chomp.to_i
+        puts 'How much damage will be reduced, if any?'
+        armour = gets.chomp.to_i
+        puts 'Does this character have any resistances? (Will be converted into a percentage)'
+        resist = gets.chomp.to_i
+        puts 'Does this character have any weaknesses? (Will be converted into a percentage)'
+        weaker = gets.chomp.to_i
+      rescue StandardError
+        puts 'Something went wrong.'
+        sleep(0.5)
+        puts 'Returning to main menu...'
+        sleep(2)
+      end
 
       initial_damage = damage - armour
       reduced_damage = damage * resist / 100
@@ -101,7 +112,39 @@ while main_menu == true && dhc_menu == false
     end
 
     while healing_calc == true
-      puts 'Healing Calculator not complete...'
+      health = nil
+      healing = nil
+      red = nil
+      amp = nil
+
+      puts 'This calculator only accepts whole numbers'
+      puts 'Decimals will not be rounded and any entry containing letters or special characters will default to 0.'
+      prompt.keypress('Press any key to continue...')
+
+      begin
+        puts 'What is the starting value?'
+        health = gets.chomp.to_i
+        puts 'What is the healing ammount?'
+        healing = gets.chomp.to_i
+        puts 'How much, if any, should the healing be reduced? (Will be converted into a percentage)'
+        red = gets.chomp.to_i
+        puts 'How much, if any, should the healing be amplified? (Will be converted into a percentage)'
+        amp = gets.chomp.to_i
+      rescue StandardError
+        puts 'Something went wrong.'
+        sleep(0.5)
+        puts 'Returning to main menu...'
+        sleep(2)
+      end
+
+      reduction = healing * red / 100
+      amplification = healing * amp / 100
+      final_healing = healing - reduction + amplification
+      final_value = health + final_healing
+
+      puts "Starting Value: #{health}"
+      puts "Total Damage:   #{final_healing}"
+      puts "Final Value:    #{final_value}"
       prompt.keypress('Press any key to return to previous menu...')
       healing_calc = false
     end
@@ -109,8 +152,8 @@ while main_menu == true && dhc_menu == false
 
   while drcf_menu == true
     results = prompt.ask('How many results do you want? ')
-    results = results.to_i
     begin
+      results = results.to_i
     rescue StandardError
       puts 'Invalid input, returning to main menu... '
       sleep(2)
@@ -125,13 +168,14 @@ while main_menu == true && dhc_menu == false
     end
     max_result = prompt.ask("What is the highest result possible? Enter '2' for a coin flip. ")
     max_result = max_result.to_i
-    case max_result
-    when 1 || 0
+    if [1, 0].include?(max_result)
       puts 'Invalid maximum result, please enter a number greater than 1. '
       sleep(0.5)
       puts 'Returning to main menu...'
       sleep(2)
       break
+    end
+    case max_result
     when 2
       results.times do
         x = rand(2)
