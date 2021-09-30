@@ -86,7 +86,8 @@ class CharacterManager
 
   def prompt_name
     sleep(0.2)
-    @name = @prompt.ask("What is your character's name? ")
+    name = @prompt.ask("What is your character's name? ")
+    @name = name.capitalize
     while @name.nil?
       puts 'Invalid name'
       @prompt.keypress('Press any key to try again...')
