@@ -1,6 +1,5 @@
 require 'tty-prompt'
 require_relative 'character_manager'
-require_relative 'damage_healing_calc'
 
 prompt = TTY::Prompt.new
 
@@ -11,7 +10,7 @@ prompt.keypress('Press any key to start...')
 cm = CharacterManager.new(prompt)
 main_menu = true
 dhc_menu = false
-# drcf_menu = false
+drcf_menu = false
 
 while main_menu == true && dhc_menu == false
   sleep(0.2)
@@ -32,9 +31,7 @@ while main_menu == true && dhc_menu == false
   when 2
     dhc_menu = true
   when 3
-    puts 'DRCF under construction'
-    sleep(1)
-    prompt.keypress('Press any key to return to previous menu...')
+    drcf_menu = true
   when 4
     puts 'Help is on the way!'
     sleep(0.5)
@@ -108,5 +105,48 @@ while main_menu == true && dhc_menu == false
       prompt.keypress('Press any key to return to previous menu...')
       healing_calc = false
     end
+  end
+
+  while drcf_menu == true
+    results = prompt.ask('How many results do you want? ')
+    results = results.to_i
+    begin
+    rescue StandardError
+      puts 'Invalid input, returning to main menu... '
+      sleep(2)
+      break
+    end
+    if results.zero?
+      puts 'Invalid value, please enter a number greater than 0. '
+      sleep(0.5)
+      puts 'Returning to main menu...'
+      sleep(2)
+      break
+    end
+    max_result = prompt.ask("What is the highest result possible? Enter '2' for a coin flip. ")
+    max_result = max_result.to_i
+    case max_result
+    when 1 || 0
+      puts 'Invalid maximum result, please enter a number greater than 1. '
+      sleep(0.5)
+      puts 'Returning to main menu...'
+      sleep(2)
+      break
+    when 2
+      results.times do
+        x = rand(2)
+        if x == 1
+          puts 'Heads'
+        else
+          puts 'Tails'
+        end
+      end
+    else
+      results.times do
+        puts rand(1..max_result)
+      end
+    end
+    prompt.keypress('Press any key to return to previous menu...')
+    drcf_menu = false
   end
 end
