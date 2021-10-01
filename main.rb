@@ -104,6 +104,8 @@ while main_menu == true
       final_damage = initial_damage - reduced_damage + increased_damage
       final_value = health - final_damage
 
+      final_value = 0 if final_value < 0
+
       puts "Starting Value: #{health}"
       puts "Total Damage:   #{final_damage}"
       puts "Final Value:    #{final_value}"
