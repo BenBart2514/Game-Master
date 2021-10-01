@@ -1,3 +1,4 @@
+require 'csv'
 require 'tty-prompt'
 require_relative 'character'
 
@@ -6,13 +7,13 @@ class CharacterManager
 
   def initialize(prompt)
     @prompt = prompt
-    @characters = []
+    # @characters = []
     # DEBUG
-    # @characters = [
-    #   Character.new('Bob', prompt),
-    #   Character.new('Ross', prompt),
-    #   Character.new('Damien', prompt)
-    # ]
+    @characters = [
+      Character.new('Bob', prompt),
+      Character.new('Ross', prompt),
+      Character.new('Damien', prompt)
+    ]
   end
 
   def cm_menu
@@ -64,34 +65,63 @@ class CharacterManager
       character.view_stats
       cm_menu
     when 4
-      # Import from file
+      # # Import from file
+      # file_name = @prompt.ask('What file would you like to import? ')
+
+      # # # with File.read
+      # # file = File.read(file_name)
+      # # file.each_line { |line|
+      # #   @characters.push line
+      # # }
+
       puts 'Import function incomplete'
       sleep(1)
-      prompt.keypress('Press any key to return to previous menu...')
+      @prompt.keypress('Press any key to return to previous menu...')
     when 5
-      # Export to file
+      # # Export to file
+      # puts 'WARNING: Choosing a file name that already exists WILL erase that file!'
+      # file_name = @prompt.ask('What would you like to call this file?')
+      
+      # # with CSV
+      # CSV.open("#{file_name}.csv", 'w') do |csv|
+      #   csv << @characters
+      # end
+
+      # # with File.write
+      # # File.write(file_name, @characters.join)
+
+      # puts "#{file_name} has been created!"
+
       puts 'Export function incomplete'
       sleep(1)
-      prompt.keypress('Press any key to return to previous menu...')
+      @prompt.keypress('Press any key to return to previous menu...')
     when 6
       # display help document
       puts 'Help is on the way!'
       sleep(0.5)
       puts '(Coming soon...)'
       sleep(1)
-      prompt.keypress('Press any key to return to previous menu...')
+      @prompt.keypress('Press any key to return to previous menu...')
       cm_menu
     end
   end
 
   def prompt_name
     sleep(0.2)
-    name = @prompt.ask("What is your character's name? ")
-    @name = name.capitalize
-    while @name.nil?
-      puts 'Invalid name'
+    begin
+      name = @prompt.ask("What is your character's name? ")
+    rescue StandardError
+      puts 'Something went wrong...'
+      sleep(0.5)
       @prompt.keypress('Press any key to try again...')
       cm_menu
     end
+    while name.nil?
+      puts 'Invalid name'
+      sleep(0.5)
+      @prompt.keypress('Press any key to try again...')
+      cm_menu
+    end
+    @name = name.capitalize
   end
 end
