@@ -143,7 +143,7 @@ while main_menu == true
       final_value = health + final_healing
 
       puts "Starting Value: #{health}"
-      puts "Total Damage:   #{final_healing}"
+      puts "Total Healing:   #{final_healing}"
       puts "Final Value:    #{final_value}"
       prompt.keypress('Press any key to return to previous menu...')
       healing_calc = false
