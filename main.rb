@@ -48,7 +48,10 @@ while main_menu == true
       menu.choice 'Healing Calculator', 2
       menu.choice 'Help', 3
       menu.choice 'Go Back', 4
+      menu.choice 'Exit', 5
     end
+
+    exit if @y == 5
 
     case @y
     when 1
@@ -154,7 +157,10 @@ while main_menu == true
       menu.enum '.'
       menu.choice 'Run Simulator', 1
       menu.choice 'Go Back', 2
+      menu.choice 'Exit', 3
     end
+
+    exit if @y == 3
 
     unless @y == 1
       drcf_menu = false

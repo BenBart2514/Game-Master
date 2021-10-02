@@ -14,7 +14,7 @@ class CharacterManager
     sleep(0.2)
     system 'clear'
     if @characters.length.zero?
-      @prompt.select('Character Manager', cycle: true, show_help: :always, per_page: 7) do |menu|
+      @y = @prompt.select('Character Manager', cycle: true, show_help: :always, per_page: 8) do |menu|
         menu.enum '.'
         menu.choice 'New Character', 1
         menu.choice 'Edit Character', 2, disabled: '        (No characters)'
@@ -23,9 +23,10 @@ class CharacterManager
         menu.choice 'Import Character(s)', 5
         menu.choice 'Help', 6
         menu.choice 'Go Back', 7
+        menu.choice 'Exit', 8
       end
     else
-      @prompt.select('Character Manager', cycle: true, show_help: :always, per_page: 7) do |menu|
+      @y = @prompt.select('Character Manager', cycle: true, show_help: :always, per_page: 8) do |menu|
         menu.enum '.'
         menu.choice 'New Character', 1
         menu.choice 'Edit Character', 2
@@ -34,10 +35,11 @@ class CharacterManager
         menu.choice 'Import Character(s)', 5
         menu.choice 'Help', 6
         menu.choice 'Go Back', 7
+        menu.choice 'Exit', 8
       end
     end
 
-    exit! if @y == 8
+    exit if @y == 8
 
     case @y
     when 1
@@ -100,8 +102,8 @@ class CharacterManager
         cm_menu
       end
 
-      import_data.each do |character|
-        data = JSON.parse(character)
+      import_data.each do |char|
+        data = JSON.parse(char)
         char = Character.new
         char.prompt(@prompt)
 

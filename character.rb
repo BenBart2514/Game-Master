@@ -124,7 +124,7 @@ class Character
     sleep(0.2)
   end
 
-  def set_level
+  def set_lvl
     puts "Enter #{@name}'s Level: "
     sleep(0.2)
     x = gets.chomp
@@ -297,7 +297,7 @@ class Character
     change_name if @y.include? 1
     set_race if @y.include? 2
     set_gender if @y.include? 3
-    set_level if @y.include? 4
+    set_lvl if @y.include? 4
     set_hp if @y.include? 5
     set_mana if @y.include? 6
     set_stamina if @y.include? 7
@@ -399,14 +399,5 @@ class Character
                     defence: @defence,
                     status: json_status
                   })
-    # puts attributes
-  end
-
-  def hydrate(headers, _data)
-    headers.each do |header|
-      header_index = headers.index(header)
-
-      # @race = race
-    end
   end
 end
