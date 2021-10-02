@@ -13,7 +13,6 @@ dhc_menu = false
 drcf_menu = false
 
 while main_menu == true
-  sleep(0.2)
   system 'clear'
   main_select = prompt.select('Main Menu', cycle: true, show_help: :always) do |menu|
     menu.enum '.'
@@ -49,10 +48,8 @@ while main_menu == true
       menu.choice 'Healing Calculator', 2
       menu.choice 'Help', 3
       menu.choice 'Go Back', 4
-      menu.choice 'Exit', 5
     end
 
-    exit if @y == 5
     case @y
     when 1
       damage_calc = true
@@ -153,19 +150,32 @@ while main_menu == true
   end
 
   while drcf_menu == true
+    @y = prompt.select('What would you like to do?') do |menu|
+      menu.enum '.'
+      menu.choice 'Run Simulator', 1
+      menu.choice 'Go Back', 2
+    end
+
+    unless @y == 1
+      drcf_menu = false
+      next
+    end
+
     results = prompt.ask('How many results do you want? ')
     begin
       results = results.to_i
     rescue StandardError
       puts 'Invalid input, returning to main menu... '
       sleep(2)
+      drcf_menu = false
       break
     end
     if results.zero?
-      puts 'Invalid value, please enter a number greater than 0. '
+      puts 'Invalid value, only accepts numbers greater than 0. '
       sleep(0.5)
       puts 'Returning to main menu...'
       sleep(2)
+      drcf_menu = false
       break
     end
     max_result = prompt.ask("What is the highest result possible? Enter '2' for a coin flip. ")

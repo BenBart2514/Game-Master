@@ -1,4 +1,4 @@
-require 'csv'
+require 'json'
 require 'tty-prompt'
 require_relative 'character'
 
@@ -7,35 +7,38 @@ class CharacterManager
 
   def initialize(prompt)
     @prompt = prompt
-    # @characters = []
-    # DEBUG
-    @characters = [
-      Character.new('Bob', prompt),
-      Character.new('Ross', prompt),
-      Character.new('Damien', prompt)
-    ]
+    @characters = []
   end
 
   def cm_menu
     sleep(0.2)
     system 'clear'
-    @y = if @characters.length.zero?
-           1
-         else
-           @prompt.select('Character Manager', cycle: true, show_help: :always, per_page: 8) do |menu|
-             menu.enum '.'
-             menu.choice 'New Character', 1
-             menu.choice 'Edit Character', 2
-             menu.choice 'List Characters', 3
-             menu.choice 'Import Character(s)', 4
-             menu.choice 'Export Character(s)', 5
-             menu.choice 'Help', 6
-             menu.choice 'Go Back', 7
-             menu.choice 'Exit', 8
-           end
-         end
+    if @characters.length.zero?
+      @prompt.select('Character Manager', cycle: true, show_help: :always, per_page: 7) do |menu|
+        menu.enum '.'
+        menu.choice 'New Character', 1
+        menu.choice 'Edit Character', 2, disabled: '        (No characters)'
+        menu.choice 'List Characters', 3, disabled: '       (No characters)'
+        menu.choice 'Export Character(s)', 4, disabled: '   (No characters)'
+        menu.choice 'Import Character(s)', 5
+        menu.choice 'Help', 6
+        menu.choice 'Go Back', 7
+      end
+    else
+      @prompt.select('Character Manager', cycle: true, show_help: :always, per_page: 7) do |menu|
+        menu.enum '.'
+        menu.choice 'New Character', 1
+        menu.choice 'Edit Character', 2
+        menu.choice 'List Characters', 3
+        menu.choice 'Export Character(s)', 4
+        menu.choice 'Import Character(s)', 5
+        menu.choice 'Help', 6
+        menu.choice 'Go Back', 7
+      end
+    end
 
-    exit if @y == 8
+    exit! if @y == 8
+
     case @y
     when 1
       prompt_name
@@ -65,35 +68,54 @@ class CharacterManager
       character.view_stats
       cm_menu
     when 4
-      # # Import from file
-      # file_name = @prompt.ask('What file would you like to import? ')
+      begin
+        puts 'WARNING: Choosing a file name that already exists WILL erase that file!'
+        file_name = @prompt.ask('What would you like to call this file?')
 
-      # # # with File.read
-      # # file = File.read(file_name)
-      # # file.each_line { |line|
-      # #   @characters.push line
-      # # }
-
-      puts 'Import function incomplete'
-      sleep(1)
-      @prompt.keypress('Press any key to return to previous menu...')
+        export_data = JSON.generate(@characters)
+        File.write("#{file_name}.json", export_data)
+        puts export_data
+      rescue StandardError
+        puts 'Something went wrong...'
+        sleep(0.5)
+        puts 'Returning to character manager menu...'
+        sleep(1)
+        cm_menu
+      end
     when 5
-      # # Export to file
-      # puts 'WARNING: Choosing a file name that already exists WILL erase that file!'
-      # file_name = @prompt.ask('What would you like to call this file?')
-      
-      # # with CSV
-      # CSV.open("#{file_name}.csv", 'w') do |csv|
-      #   csv << @characters
-      # end
+      begin
+        puts "Do NOT include file type, e.g for 'example.csv' enter 'example' only."
+        file_name = @prompt.ask('What file would you like to import? ')
+        import_data = JSON.parse(File.read(file_name + '.json'))
+      rescue NoMethodError
+        puts 'Import impossible, file may not exist...'
+        sleep(0.5)
+        @prompt.keypress('Press any key to return to previous menu...')
+        cm_menu
+      rescue StandardError
+        puts 'Something went wrong...'
+        sleep(0.5)
+        puts 'Returning to character manager menu...'
+        sleep(1)
+        cm_menu
+      end
 
-      # # with File.write
-      # # File.write(file_name, @characters.join)
+      import_data.each do |character|
+        data = JSON.parse(character)
+        char = Character.new
+        char.prompt(@prompt)
 
-      # puts "#{file_name} has been created!"
+        data.each do |key, value|
+          char.send(key, value)
+        end
+        @characters << char
+      end
 
-      puts 'Export function incomplete'
-      sleep(1)
+      puts "#{file_name} has been successfully imported!"
+
+      @prompt.keypress('Press any key to return to previous menu...')
+
+      puts "#{file_name} has been successfully exported!"
       @prompt.keypress('Press any key to return to previous menu...')
     when 6
       # display help document
@@ -113,13 +135,15 @@ class CharacterManager
     rescue StandardError
       puts 'Something went wrong...'
       sleep(0.5)
-      @prompt.keypress('Press any key to try again...')
+      puts 'Returning to character manager menu...'
+      sleep(1)
       cm_menu
     end
     while name.nil?
       puts 'Invalid name'
       sleep(0.5)
-      @prompt.keypress('Press any key to try again...')
+      puts 'Returning to character manager menu...'
+      sleep(1)
       cm_menu
     end
     @name = name.capitalize

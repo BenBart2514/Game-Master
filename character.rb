@@ -1,23 +1,104 @@
 require 'tty-prompt'
 require 'tty-table'
+require 'json'
 
 class Character
-  attr_reader :name, :race, :gender, :lvl, :xp, :hp, :max_hp, :mana, :max_mana, :stamina, :max_stamina, :ap, :max_ap,
-              :attack, :defence
+  def initialize(name = 'Anonymous', prompt = nil)
+    name(name)
+    prompt(prompt)
+  end
 
-  def initialize(name, prompt)
-    @prompt = prompt
-    @name = name
-    @status = []
-    # DEBUG
-    # @status = %w[Bleeding Stunned]
+  def prompt(prompt = nil)
+    @prompt = prompt unless prompt.nil?
+    @prompt
+  end
+
+  def name(name = nil)
+    @name = name unless name.nil?
+    @name
+  end
+
+  def race(race = nil)
+    @race = race unless race.nil?
+    @race
+  end
+
+  def gender(gender = nil)
+    @gender = gender unless gender.nil?
+    @gender
+  end
+
+  def lvl(lvl = nil)
+    @lvl = lvl unless lvl.nil?
+    @lvl
+  end
+
+  def xp(xp = nil)
+    @xp = xp unless xp.nil?
+    @xp
+  end
+
+  def hp(hp = nil)
+    @hp = hp unless hp.nil?
+    @hp
+  end
+
+  def max_hp(max_hp = nil)
+    @max_hp = max_hp unless max_hp.nil?
+    @max_hp
+  end
+
+  def mana(mana = nil)
+    @mana = mana unless mana.nil?
+    @mana
+  end
+
+  def max_mana(max_mana = nil)
+    @max_mana = max_mana unless max_mana.nil?
+    @max_mana
+  end
+
+  def stamina(stamina = nil)
+    @stamina = stamina unless stamina.nil?
+    @stamina
+  end
+
+  def max_stamina(max_stamina = nil)
+    @max_stamina = max_stamina unless max_stamina.nil?
+    @max_stamina
+  end
+
+  def ap(ap = nil)
+    @ap = ap unless ap.nil?
+    @ap
+  end
+
+  def max_ap(max_ap = nil)
+    @max_ap = max_ap unless max_ap.nil?
+    @max_ap
+  end
+
+  def attack(attack = nil)
+    @attack = attack unless attack.nil?
+    @attack
+  end
+
+  def defence(defence = nil)
+    @defence = defence unless defence.nil?
+    @defence
+  end
+
+  def status(status = nil)
+    @status ||= []
+    @status << status unless status.nil?
+    @status
   end
 
   def change_name
     puts "What would you like to change #{@name}'s name to?"
     sleep(0.2)
     new_name = gets.chomp.capitalize
-    @name = new_name
+    name(new_name)
     puts "Your character's name is now #{@name}"
     sleep(0.2)
   end
@@ -26,7 +107,7 @@ class Character
     puts "What would you like to change #{@name}'s race to?"
     sleep(0.2)
     race = gets.chomp.capitalize
-    @race = race
+    race(race)
     puts "#{@name}'s race is now #{@race}"
     sleep(0.2)
   end
@@ -38,7 +119,7 @@ class Character
       menu.choice 'Female'
       menu.choice 'Other'
     end
-    @gender = x
+    gender(x)
     puts "#{@name}'s gender is now #{@gender}"
     sleep(0.2)
   end
@@ -54,12 +135,12 @@ class Character
       x = gets.chomp
       lvl = x.to_i
     end
-    @lvl = lvl
+    lvl(lvl)
     puts "Enter #{@name}'s' XP: "
     sleep(0.2)
     x = gets.chomp
     xp = x.to_i
-    @xp = xp
+    xp(xp)
     puts "#{@name}'s level is now #{@lvl} and their XP is #{@xp}"
     sleep(0.2)
   end
@@ -75,7 +156,7 @@ class Character
       x = gets.chomp
       hp = x.to_i
     end
-    @max_hp = hp
+    max_hp(hp)
     puts "Enter #{@name}'s current HP: "
     sleep(0.2)
     x = gets.chomp
@@ -86,7 +167,7 @@ class Character
       x = gets.chomp
       hp = x.to_i
     end
-    @hp = hp
+    hp(hp)
     puts "#{@name}'s HP is now #{@hp}/#{max_hp}"
   end
 
@@ -101,7 +182,7 @@ class Character
       x = gets.chomp
       mana = x.to_i
     end
-    @max_mana = mana
+    max_mana(mana)
     puts "Enter #{@name}'s current Mana: "
     sleep(0.2)
     x = gets.chomp
@@ -112,7 +193,7 @@ class Character
       x = gets.chomp
       mana = x.to_i
     end
-    @mana = mana
+    mana(mana)
     puts "#{@name}'s Mana is now #{@mana}/#{max_mana}"
   end
 
@@ -127,7 +208,7 @@ class Character
       x = gets.chomp
       stamina = x.to_i
     end
-    @max_stamina = stamina
+    max_stamina(stamina)
     puts "Enter #{@name}'s current Stamina: "
     sleep(0.2)
     x = gets.chomp
@@ -138,7 +219,7 @@ class Character
       x = gets.chomp
       stamina = x.to_i
     end
-    @stamina = stamina
+    stamina(stamina)
     puts "#{@name}'s Stamina is now #{@stamina}/#{max_stamina}"
   end
 
@@ -153,7 +234,7 @@ class Character
       x = gets.chomp
       ap = x.to_i
     end
-    @max_ap = ap
+    max_ap(ap)
     puts "Enter #{@name}'s current AP: "
     sleep(0.2)
     x = gets.chomp
@@ -164,7 +245,7 @@ class Character
       x = gets.chomp
       ap = x.to_i
     end
-    @ap = ap
+    ap(ap)
     puts "#{@name}'s AP is now #{@ap}/#{max_ap}"
   end
 
@@ -179,7 +260,7 @@ class Character
       x = gets.chomp
       attack = x.to_i
     end
-    @attack = attack
+    attack(attack)
     puts "#{@name}'s Attack is now #{@attack}"
   end
 
@@ -194,7 +275,7 @@ class Character
       x = gets.chomp
       defence = x.to_i
     end
-    @defence = defence
+    defence(defence)
     puts "#{@name}'s Defence is now #{@defence}"
   end
 
@@ -244,8 +325,8 @@ class Character
   end
 
   def add_status
-    @y = @prompt.ask('What status effect is active on this character? ')
-    @status << @y
+    effect = @prompt.ask('What status effect is active on this character? ')
+    status(effect)
   end
 
   def remove_status
@@ -263,7 +344,7 @@ class Character
     unless hp.nil?
       if @hp.zero?
         puts 'Status: Dead'
-      elsif @status.empty?
+      elsif status.empty?
         puts 'Status: Alive'
       else
         puts "Status: Alive, #{@status}"
@@ -295,6 +376,37 @@ class Character
       set_status
       system 'clear'
       view_stats
+    end
+  end
+
+  def to_s
+    json_status = @status unless @status.nil?
+    JSON.generate({
+                    name: @name,
+                    gender: @gender,
+                    race: @race,
+                    lvl: @lvl,
+                    xp: @xp,
+                    hp: @hp,
+                    max_hp: @max_hp,
+                    mana: @mana,
+                    max_mana: @max_mana,
+                    stamina: @stamina,
+                    max_stamina: @max_stamina,
+                    ap: @ap,
+                    max_ap: @max_ap,
+                    attack: @attack,
+                    defence: @defence,
+                    status: json_status
+                  })
+    # puts attributes
+  end
+
+  def hydrate(headers, _data)
+    headers.each do |header|
+      header_index = headers.index(header)
+
+      # @race = race
     end
   end
 end
