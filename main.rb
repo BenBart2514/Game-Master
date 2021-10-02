@@ -17,7 +17,7 @@ while main_menu == true
   main_select = prompt.select('Main Menu', cycle: true, show_help: :always) do |menu|
     menu.enum '.'
 
-    menu.choice 'Charcter Manager', 1
+    menu.choice 'Character Manager', 1
     menu.choice 'Damage/Healing Calculator', 2
     menu.choice 'Dice Roller, Coin Flipper', 3
     menu.choice 'Help', 4
@@ -32,10 +32,9 @@ while main_menu == true
   when 3
     drcf_menu = true
   when 4
-    puts 'Help is on the way!'
-    sleep(0.5)
-    puts '(Coming soon...)'
-    sleep(1)
+
+    puts "More help can be found in the README which you can access by visiting:"
+    puts "https://github.com/BenBart2514/Game-Master/blob/main/README.md"
     prompt.keypress('Press any key to return to previous menu...')
   end
 
@@ -59,11 +58,16 @@ while main_menu == true
     when 2
       healing_calc = true
     when 3
-      # display help document
-      puts 'Help is on the way!'
-      sleep(0.5)
-      puts '(Coming soon...)'
-      sleep(1)
+      puts "\n"
+      puts 'The DAMAGE/HEALING CALCULATOR is a simple tool allowing you to quickly calculate damages or healing done to your characters.'
+      puts "\n"
+      puts 'First you will input a starting value for the health or other stat that is being damaged or restored, then enter a damage or healing value to be applied.'
+      puts "\n"
+      puts 'The calculator also takes into consideration any resistances, armour, damage/healing reductions. You will be promted to enter these as well.'
+      puts "\n"
+      puts "More help can be found in the README which you can access by visiting:"
+      puts "https://github.com/BenBart2514/Game-Master/blob/main/README.md"
+      puts "\n"
       prompt.keypress('Press any key to return to previous menu...')
     when 4
       dhc_menu = false
@@ -167,6 +171,13 @@ while main_menu == true
       next
     end
 
+    puts "\n"
+    puts 'This feature simulates a dice roll or coin flip depending on your input.'
+    puts 'Providing a number of random results depending on your chosen values.'
+    puts "\n"
+    puts "More help can be found in the README which you can access by visiting:"
+    puts "https://github.com/BenBart2514/Game-Master/blob/main/README.md"
+    puts "\n"
     results = prompt.ask('How many results do you want? ')
     begin
       results = results.to_i
@@ -208,7 +219,7 @@ while main_menu == true
         puts rand(1..max_result)
       end
     end
-    prompt.keypress('Press any key to return to previous menu...')
+    prompt.keypress('Press any key to return to main menu...')
     drcf_menu = false
   end
 end

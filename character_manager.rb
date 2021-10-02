@@ -13,31 +13,31 @@ class CharacterManager
   def cm_menu
     sleep(0.2)
     system 'clear'
-    if @characters.length.zero?
-      @y = @prompt.select('Character Manager', cycle: true, show_help: :always, per_page: 8) do |menu|
-        menu.enum '.'
-        menu.choice 'New Character', 1
-        menu.choice 'Edit Character', 2, disabled: '        (No characters)'
-        menu.choice 'List Characters', 3, disabled: '       (No characters)'
-        menu.choice 'Export Character(s)', 4, disabled: '   (No characters)'
-        menu.choice 'Import Character(s)', 5
-        menu.choice 'Help', 6
-        menu.choice 'Go Back', 7
-        menu.choice 'Exit', 8
-      end
-    else
-      @y = @prompt.select('Character Manager', cycle: true, show_help: :always, per_page: 8) do |menu|
-        menu.enum '.'
-        menu.choice 'New Character', 1
-        menu.choice 'Edit Character', 2
-        menu.choice 'List Characters', 3
-        menu.choice 'Export Character(s)', 4
-        menu.choice 'Import Character(s)', 5
-        menu.choice 'Help', 6
-        menu.choice 'Go Back', 7
-        menu.choice 'Exit', 8
-      end
-    end
+    @y = if @characters.length.zero?
+           @prompt.select('Character Manager', cycle: true, show_help: :always, per_page: 8) do |menu|
+             menu.enum '.'
+             menu.choice 'New Character', 1
+             menu.choice 'Edit Character', 2, disabled: '        (No characters)'
+             menu.choice 'List Characters', 3, disabled: '       (No characters)'
+             menu.choice 'Export Character(s)', 4, disabled: '   (No characters)'
+             menu.choice 'Import Character(s)', 5
+             menu.choice 'Help', 6
+             menu.choice 'Go Back', 7
+             menu.choice 'Exit', 8
+           end
+         else
+           @prompt.select('Character Manager', cycle: true, show_help: :always, per_page: 8) do |menu|
+             menu.enum '.'
+             menu.choice 'New Character', 1
+             menu.choice 'Edit Character', 2
+             menu.choice 'List Characters', 3
+             menu.choice 'Export Character(s)', 4
+             menu.choice 'Import Character(s)', 5
+             menu.choice 'Help', 6
+             menu.choice 'Go Back', 7
+             menu.choice 'Exit', 8
+           end
+         end
 
     exit if @y == 8
 
@@ -120,11 +120,20 @@ class CharacterManager
       puts "#{file_name} has been successfully exported!"
       @prompt.keypress('Press any key to return to previous menu...')
     when 6
-      # display help document
-      puts 'Help is on the way!'
-      sleep(0.5)
-      puts '(Coming soon...)'
-      sleep(1)
+      puts 'The CHARACTER MANAGER is the central feature of this application.'
+      puts "\n"
+      puts "The process of using this feature is simple.
+You will first be asked to enter a name for the character being created.
+Then you will be given the ability to set various statistics for that character.
+These stats range from health points and mana to action points, attack points and defence points."
+      puts "\n"
+      puts "Once the character has been created any stats of the character can be edited or changed at any time using the 'Edit Characters' Menu.
+You can also create custom statuses for other stats not offered automatically using the 'Set Status' feature in the 'List Characters' Menu.
+Characters can be exported into named files which can be imported by the app during later uses."
+      puts "\n"
+      puts "More help can be found in the README which you can access by visiting:"
+      puts "https://github.com/BenBart2514/Game-Master/blob/main/README.md"
+      puts "\n"
       @prompt.keypress('Press any key to return to previous menu...')
       cm_menu
     end
