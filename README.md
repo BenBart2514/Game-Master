@@ -3,9 +3,9 @@ Sections to be Included:
 
 # Game Master
 The purpose of the Game Master application is to provide a character management system for gamers / dungeon masters for various table top games as well as provide some basic tools for gameplay such as dice rolls, coin flips and damage/healing calculators. The application allows users to create basic characters with customizable statistics and modifiers and import/export those character sets for future use.
- - R10-1
- - R10-2
- - R10-3
+
+## r10
+
 ## Why use Game Master?
 The app attempts to make it easier to play certain games that require frequent calculations and probability roles without the need for a conventional calculator or physical dice. This makes it especially useful when used in an online environment. It will also make the process of creating and editing characters easy as well as allow for the tracking of changes made to those characters and store them in certain states between game sessions.
 ## Target Audience
