@@ -1,6 +1,3 @@
-Sections to be Included:
- - R10, separated into it's three parts
-
 # Game Master
 The purpose of the Game Master application is to provide a character management system for gamers / dungeon masters for various table top games as well as provide some basic tools for gameplay such as dice rolls, coin flips and damage/healing calculators. The application allows users to create basic characters with customizable statistics and modifiers and import/export those character sets for future use.
 
@@ -11,7 +8,11 @@ The purpose of the Game Master application is to provide a character management 
 3. Open your terminal/commmand line.
 4. Navigate to the directory you extracted the file to in your terminal. For example, if you extracted into your documents folder change directories into documents.
 5. Once more, change directories into the 'src' folder.
-6. Finally, run the application by running the command './game_master.sh' in your terminal. Example:
+6. Run 'bundle install' in your terminal, to install all dependencies. You can find a list of these dependencies below. This step is optional if you already have all dependencies installed and only needs to be done once before running the app for the first time.
+```
+~$ bundle install
+```
+7. Finally, run the application by running the command './game_master.sh' in your terminal. Example:
 ```
 ~$ ./game_master.sh
 ```
