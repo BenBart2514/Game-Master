@@ -162,7 +162,7 @@ class Character
     x = gets.chomp
     hp = x.to_i
     while hp > @max_hp
-      puts "Invalid value, please enter a value not above #{max_hp}: "
+      puts "Invalid value, please enter a number that is not above #{max_hp}: "
       sleep(0.2)
       x = gets.chomp
       hp = x.to_i
@@ -188,7 +188,7 @@ class Character
     x = gets.chomp
     mana = x.to_i
     while mana > @max_mana
-      puts "Invalid value, please enter a value not above #{max_mana}: "
+      puts "Invalid value, please enter a number that is not above #{max_mana}: "
       sleep(0.2)
       x = gets.chomp
       mana = x.to_i
@@ -214,7 +214,7 @@ class Character
     x = gets.chomp
     stamina = x.to_i
     while stamina > @max_stamina
-      puts "Invalid value, please enter a value not above #{max_stamina}: "
+      puts "Invalid value, please enter a number that is not above #{max_stamina}: "
       sleep(0.2)
       x = gets.chomp
       stamina = x.to_i
@@ -240,7 +240,7 @@ class Character
     x = gets.chomp
     ap = x.to_i
     while ap > @max_ap
-      puts "Invalid value, please enter a value not above #{max_ap}"
+      puts "Invalid value, please enter a number that is not above #{max_ap}"
       sleep(0.2)
       x = gets.chomp
       ap = x.to_i
@@ -326,6 +326,7 @@ class Character
 
   def add_status
     effect = @prompt.ask('What status effect is active on this character? ')
+    effect = effect.capitalize
     status(effect)
   end
 

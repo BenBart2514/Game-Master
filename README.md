@@ -4,7 +4,27 @@ Sections to be Included:
 # Game Master
 The purpose of the Game Master application is to provide a character management system for gamers / dungeon masters for various table top games as well as provide some basic tools for gameplay such as dice rolls, coin flips and damage/healing calculators. The application allows users to create basic characters with customizable statistics and modifiers and import/export those character sets for future use.
 
-## r10
+## Installation and Use Instructions:
+### How to Install Game Master
+1. Simply download the zip file from this GitHub repository.
+2. Extract the file wherever you like.
+3. Open your terminal/commmand line.
+4. Navigate to the directory you extracted the file to in your terminal. For example, if you extracted into your documents folder change directories into documents.
+5. Once more, change directories into the 'src' folder.
+6. Finally, run the application by running the command './game_master.sh' in your terminal. Example:
+```
+~$ ./game_master.sh
+```
+### System Requirements and Dependencies
+Game master has been developed and runs on Ruby 3.0, so you will need ruby installed on your device to run the application.
+
+Additionally, the following ruby gems have been used and are required to run the application. Running 'bundle install' once you have downloaded the application will install these for you. Otherwise, you can install them individually via the gem's individual repo's found below:
+- JSON:
+    - Included with ruby since v1.9.3+
+- TTY-Prompt:
+    - https://github.com/piotrmurach/tty-prompt
+- TTY-Table: 
+    - https://github.com/piotrmurach/tty-table
 
 ## Why use Game Master?
 The app attempts to make it easier to play certain games that require frequent calculations and probability roles without the need for a conventional calculator or physical dice. This makes it especially useful when used in an online environment. It will also make the process of creating and editing characters easy as well as allow for the tracking of changes made to those characters and store them in certain states between game sessions.
