@@ -32,8 +32,12 @@ while main_menu == true
   when 3
     drcf_menu = true
   when 4
-
-    puts "More help can be found in the README which you can access by visiting:"
+    puts "The main menu is where you start any time you load up the application."
+    puts "From here you can access the different features of the application by navigating the menu using the up and down arrow keys on your keyboard, or your number keys."
+    puts "Up and down will navigate your selector up and down the numbered list of options, whereas your number keys will instantly move the selector to the coresponding option with that numbered index."
+    puts "When you have your selector hovering over an option you would like to access, simply press enter and it will perform an action based on your selection."
+    puts "\n"
+    puts "Help can be found in the README which you can access by visiting:"
     puts "https://github.com/BenBart2514/Game-Master/blob/main/README.md"
     prompt.keypress('Press any key to return to previous menu...')
   end

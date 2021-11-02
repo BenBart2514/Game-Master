@@ -305,7 +305,7 @@ class Character
     set_attack if @y.include? 9
     set_defence if @y.include? 10
     sleep(0.5)
-    @prompt.keypress('Press any key to continue...')
+    @prompt.keypress('Press any key to return to character sheet...')
   end
 
   def set_status
@@ -331,11 +331,16 @@ class Character
   end
 
   def remove_status
-    choice = @prompt.multi_select('What status effect(s) would you like to remove? ', @status, cycle: true,
-                                                                                               show_help: :always,
-                                                                                               filter: true)
-    choice.each do |x|
-      @status.delete(x)
+    if @status.nil?
+      puts 'This character has no current status effects, to set some, choose the "Add" option in the "Set Status" menu.'
+      @prompt.keypress('Press any key to return to character sheet...')
+    else
+      choice = @prompt.multi_select('What status effect(s) would you like to remove? ', @status, cycle: true,
+                                                                                                show_help: :always,
+                                                                                                filter: true)
+      choice.each do |x|
+        @status.delete(x)
+      end
     end
   end
 
